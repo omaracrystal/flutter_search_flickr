@@ -1,16 +1,27 @@
-# flutter_search_flickr
+# Flutter Search with Flickr
 
-A new Flutter project.
+Prepare to surf all the images that Flickr has to offer.
+* Beware: disturbing images may appear while searching...
 
-## Getting Started
+## Description:
+This search allows users to search tags or titles of images from Flickr's public api.
 
-This project is a starting point for a Flutter application.
+## AC Completed 
+- Make the call to the web service in a way that does not block the UI. 
+- The user interface must remain responsive to touch during the call and while the images are downloaded asynchronously into the list. 
+- Results will be displayed in a list that shows one row/cell per record with each row containing at least image, title, width and height. 
 
-A few resources to get you started if this is your first Flutter project:
+## AC To Do
+- When a user clicks on an image, show a detail page containing metadata about the image (the image URL, title, or whatever is available). 
+- For accessibility purposes, give selectable images the button trait so that they are announced as such. Also announce nav titles as the pages are navigated to.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Technologies:
+- Flutter
+- Dart
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| Gif           | Snapshot           |
+| ------------- |:-------------:|
+| ![](./readme-assets/flutter_flickr.gif) | ![](./readme-assets/flutter_flickr.jpg) |
+
+
+
