@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_search_flickr/ui/search.dart';
 
 void main() {
   runApp(MyApp());
@@ -46,31 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-//            InkWell(
-//              child: Text('Tap me!',
-//                style: TextStyle(fontSize: 24),),
-//              onTap: () => debugPrint('tapped...'),
-//            )
-          CustomButton(),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: Search(),
     );
   }
 }
@@ -86,10 +63,10 @@ class CustomButton extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(10.0),
         decoration: BoxDecoration(
-          color: Colors.pinkAccent,
-        borderRadius: BorderRadius.circular(8.0)
-      ),
-      child: Text('Button'),
+            color: Colors.pinkAccent,
+            borderRadius: BorderRadius.circular(8.0)
+        ),
+        child: Text('Button'),
       ),
     );
     // TODO: implement build
