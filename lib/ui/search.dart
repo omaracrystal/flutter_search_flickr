@@ -44,8 +44,6 @@ class _SearchState extends State<Search> {
             BuildContext buildContext,
             AsyncSnapshot<List<FlickrBlocModel>> snapshot
             ) {
-          print('debug --> snapshot: $snapshot');
-
           if (snapshot == null) {
             return _flickrMessage();
           }
@@ -69,23 +67,25 @@ class _SearchState extends State<Search> {
               borderRadius: BorderRadius.circular(4),
               boxShadow: [
                 BoxShadow(
-                    blurRadius: 2, offset: Offset(1, 0.5), spreadRadius: 0.5)
+                    blurRadius: 2, offset: Offset(1, 1), spreadRadius: 0.5)
               ]),
-          margin: EdgeInsets.only(left: 5, bottom: 10, top: 10),
+          margin: EdgeInsets.only(left: 5, right: 5, bottom: 10, top: 10),
           alignment: Alignment.center,
         ),
       ),
       Container(
-        alignment: Alignment.center,
+        alignment: Alignment.topCenter,
         child: Text(
           '${snapshot.data[index].title}',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 10,
+            fontSize: 14,
             color: Colors.white,
+            backgroundColor: Colors.black38,
           ),
           textAlign: TextAlign.start,
         ),
+        padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
       )
     ]);
   }
@@ -111,7 +111,6 @@ class _SearchState extends State<Search> {
           double delta = 230; // or something else.. you have to do the math yourself
           if (maxScroll - currentScroll <= delta) {
             print('reached the end ?');
-
             _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
           }
           if (maxScroll1 - currentScroll1 <= delta) {
@@ -125,7 +124,7 @@ class _SearchState extends State<Search> {
       },
       child: Container(
         color: Colors.black54, //background
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -217,20 +216,20 @@ class _SearchState extends State<Search> {
         body: Column(
           children: <Widget>[
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             Container(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(10.0),
               child: TextField(
                 onChanged: (text) => _searchUser(text),
                 decoration: InputDecoration(
-                    suffixIcon: Icon(Icons.search),
+                    prefixIcon: Icon(Icons.search),
                     hintText: 'Search',
                     contentPadding:
-                    EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                    EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     border: OutlineInputBorder(
-                        borderSide: BorderSide(width: 3.1, color: Colors.black54),
-                        borderRadius: BorderRadius.circular(30))),
+                        borderSide: BorderSide(width: 3, color: Colors.black54),
+                        borderRadius: BorderRadius.circular(8))),
               ),
             ),
             Container(
@@ -255,7 +254,7 @@ class _SearchState extends State<Search> {
                           )
                       ),
                       alignment: Alignment.center,
-                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      margin: EdgeInsets.symmetric(horizontal: 5),
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
                         '${tabBarTitle[x]}',
