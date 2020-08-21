@@ -93,13 +93,11 @@ class _SearchState extends State<Search> {
   Widget _flickrResults({AsyncSnapshot<List<FlickrBlocModel>> snapshot}) {
     return GestureDetector(
       onPanUpdate: (details) {
-        //print(details.globalPosition.dy);
         if (details.delta.dy > 0) {
           if (_scrollController.offset < 0) {
             _scrollController.jumpTo(0);
             _scrollController1.jumpTo(0);
           }
-
           _scrollController.jumpTo(_scrollController.offset - details.delta.dy);
           _scrollController1.jumpTo(_scrollController1.offset - details.delta.dy);
         } else if (details.delta.dy < 0) {
@@ -109,9 +107,8 @@ class _SearchState extends State<Search> {
           double maxScroll1 = _scrollController1.position.maxScrollExtent;
           double currentScroll1 = _scrollController1.position.pixels;
 
-          ///lets say that we reached 99% of tdoghe screen
-          double delta =
-          230; // or something else.. you have to do the math yourself
+          /// lets say that we reached 99% of the screen
+          double delta = 230; // or something else.. you have to do the math yourself
           if (maxScroll - currentScroll <= delta) {
             print('reached the end ?');
 
@@ -155,9 +152,6 @@ class _SearchState extends State<Search> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
-                  // if (index == random || index == 1) {
-                  //   return _showAd();
-                  // }
                   if (index.isOdd) {
                     return Container(
                         height: 300, child: _cardWidget(snapshot, index));
@@ -176,10 +170,6 @@ class _SearchState extends State<Search> {
   @override
   void initState() {
     super.initState();
-//    _scrollController.addListener(() {
-    // _scrollController.jumpTo(_scrollController.offset);
-//    });
-//    _scrollController1.addListener(() {});
   }
 
   void _searchUser(String searchQuery) {
@@ -187,12 +177,12 @@ class _SearchState extends State<Search> {
 
     List<FlickrBlocModel> searchResult = [];
     flickrBloc.flickrController.sink.add(null);
-    print('total users = ${totalUsers.length}'); //
+    print('total results = ${totalResults.length}');
     if (searchQuery.isEmpty) {
-      flickrBloc.flickrController.sink.add(totalUsers);
+      flickrBloc.flickrController.sink.add(totalResults);
       return;
     }
-    totalUsers.forEach((user) {
+    totalResults.forEach((user) {
       if (user.tags.toLowerCase().contains(searchQuery.toLowerCase()) ||
           user.title.toLowerCase().contains(searchQuery.toLowerCase())) {
         searchResult.add(user);
@@ -204,28 +194,19 @@ class _SearchState extends State<Search> {
 
   Future<void> fetchRandomUsers(String searchQuery) async {
     String searchParam = searchQuery;
-    RANDOM_URL = "https://api.flickr.com/services/feeds/photos_public.gne?tagmode=any&format=json&nojsoncallback=1&tags=<$searchParam>";
+    FLICKR_URL = "https://api.flickr.com/services/feeds/photos_public.gne?tagmode=any&format=json&nojsoncallback=1&tags=<$searchParam>";
 
-    http.Response response = await http.get(RANDOM_URL);
+    http.Response response = await http.get(FLICKR_URL);
     if (response.statusCode == 200) {
       var body = jsonDecode(response.body);
       final Iterable list = body["items"];
-      print('debug --> body = $body');
-      print('debug --> list = $list');
-      print('debug --> list.length = ${list.length}');
-      // map each json object to model and add to list and return the list of models
-      list.map((model) => print('debug --> model = $model'));
-      totalUsers =
-          list.map((model) => FlickrBlocModel.fromJson(model)).toList();
-
-      print('debug --> totalUsers = $totalUsers');
-
-      flickrBloc.flickrController.sink.add(totalUsers);
+      totalResults = list.map((model) => FlickrBlocModel.fromJson(model)).toList();
+      flickrBloc.flickrController.sink.add(totalResults);
     }
   }
 
   int random;
-  List<FlickrBlocModel> totalUsers = [];
+  List<FlickrBlocModel> totalResults = [];
   Random rng = Random();
   @override
   Widget build(BuildContext context) {
@@ -264,19 +245,15 @@ class _SearchState extends State<Search> {
                       setState(() {
                         selectedTab = x;
                       });
-                      if (x == 0) {
-//                      random = rng.nextInt(100);
-                        random = 20;
-                        print('debug --> random = $random');
-                      }
                     },
                     child: Container(
                       decoration: BoxDecoration(
                           border: Border(
                               bottom: BorderSide(
-                                  color: x == selectedTab
-                                      ? Colors.green
-                                      : Colors.white))),
+                                  color: Colors.white
+                              )
+                          )
+                      ),
                       alignment: Alignment.center,
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       padding: EdgeInsets.symmetric(horizontal: 10),
@@ -292,11 +269,6 @@ class _SearchState extends State<Search> {
             Expanded(
                 child: flickrResultsWidget()
             )
-//                child: selectedTab == 0
-//                    ? flickrResultsWidget()
-//                    : selectedTab == 1
-//                        ? _friends()
-//                        : selectedTab == 2 ? _acquaintance() : _colleagues())
           ],
         ),
       ),
